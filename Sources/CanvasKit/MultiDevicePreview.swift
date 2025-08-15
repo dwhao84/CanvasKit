@@ -60,4 +60,69 @@ public struct MultiDevicePreview<Content: View>: View {
         }
     }
 }
+
+// MARK: - Quick Preview Extensions
+
+@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
+public extension View {
+    
+    /// 快速預覽 - 常用的幾個裝置（iPhone、iPad）
+    func quickPreview() -> some View {
+        MultiDevicePreview(devices: [.iPhoneSE3, .iPhone16Pro, .iPadPro11M4]) {
+            self
+        }
+    }
+    
+    /// 快速預覽 - iPhone 16 Pro
+    func phonePreview() -> some View {
+        MultiDevicePreview(devices: [.iPhone16Pro]) {
+            self
+        }
+    }
+    
+    /// 快速預覽 - iPad Pro 11" M4
+    func padPreview() -> some View {
+        MultiDevicePreview(devices: [.iPadPro11M4]) {
+            self
+        }
+    }
+    
+    /// 快速預覽 - 所有裝置
+    func allDevicesPreview() -> some View {
+        MultiDevicePreview(devices: PreviewDevices.all) {
+            self
+        }
+    }
+    
+    /// 快速預覽 - 自訂裝置列表
+    func previewOn(devices: [PreviewDevice]) -> some View {
+        MultiDevicePreview(devices: devices) {
+            self
+        }
+    }
+    
+    /// 快速預覽 - 深色/淺色模式對比（使用預設裝置）
+    func colorSchemePreview() -> some View {
+        Group {
+            MultiDevicePreview(devices: [.iPhone16Pro], colorScheme: .light) {
+                self
+            }
+            MultiDevicePreview(devices: [.iPhone16Pro], colorScheme: .dark) {
+                self
+            }
+        }
+    }
+    
+    /// 快速預覽 - 指定裝置的深色/淺色模式對比
+    func colorSchemePreview(on device: PreviewDevice) -> some View {
+        Group {
+            MultiDevicePreview(devices: [device], colorScheme: .light) {
+                self
+            }
+            MultiDevicePreview(devices: [device], colorScheme: .dark) {
+                self
+            }
+        }
+    }
+}
 #endif
