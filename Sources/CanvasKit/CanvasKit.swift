@@ -2,7 +2,7 @@
 // https://docs.swift.org/swift-book
 
 // MARK: - CanvasKit
-#if DEBUG && canImport(SwiftUI)
+#if canImport(SwiftUI)
 import SwiftUI
 
 @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
