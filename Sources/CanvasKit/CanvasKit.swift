@@ -45,7 +45,7 @@ public enum PreviewDevices {
         .iPadMini6, .iPadPro11M4, .iPadPro129Gen6
     ]
 
-    /// 所有裝置（方便一次跑全部）
+    /// All devices (convenient for testing all at once)
     public static let all: [PreviewDevice] = phones + pads
 }
 #endif

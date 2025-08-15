@@ -16,18 +16,13 @@ private extension View {
         if let scheme { self.environment(\.colorScheme, scheme) } else { self }
     }
 
-    /// 不在簽名引用 DynamicTypeSize；在支援平台才套用
+    /// Apply DynamicTypeSize if provided, simplified since package requires iOS 15+/macOS 12+
     @ViewBuilder func withDynamicTypeSizeIfAvailable(_ size: Any?) -> some View {
-        #if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
-        if #available(iOS 15, macOS 12, tvOS 15, watchOS 8, *),
-           let s = size as? DynamicTypeSize {
+        if let s = size as? DynamicTypeSize {
             self.dynamicTypeSize(s)
         } else {
             self
         }
-        #else
-        self
-        #endif
     }
 }
 
@@ -35,13 +30,13 @@ private extension View {
 public struct MultiDevicePreview<Content: View>: View {
     public let devices: [PreviewDevice]
     public let colorScheme: ColorScheme?
-    private let _dynamicTypeSize: Any?   // 用 Any? 裝載，避免簽名觸發 12.0 限制
+    private let _dynamicTypeSize: Any?   // Use Any? to avoid signature limitations on older platforms
     public let content: () -> Content
 
     public init(
         devices: [PreviewDevice],
         colorScheme: ColorScheme? = nil,
-        dynamicTypeSize: Any? = nil,     // 呼叫端在新平台傳入 DynamicTypeSize 即可
+        dynamicTypeSize: Any? = nil,     // Caller can pass DynamicTypeSize on supported platforms
         @ViewBuilder content: @escaping () -> Content
     ) {
         self.devices = devices
@@ -66,42 +61,42 @@ public struct MultiDevicePreview<Content: View>: View {
 @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 public extension View {
     
-    /// 快速預覽 - 常用的幾個裝置（iPhone、iPad）
+    /// Quick preview - common devices (iPhone, iPad)
     func quickPreview() -> some View {
         MultiDevicePreview(devices: [.iPhoneSE3, .iPhone16Pro, .iPadPro11M4]) {
             self
         }
     }
     
-    /// 快速預覽 - iPhone 16 Pro
+    /// Quick preview - iPhone 16 Pro
     func phonePreview() -> some View {
         MultiDevicePreview(devices: [.iPhone16Pro]) {
             self
         }
     }
     
-    /// 快速預覽 - iPad Pro 11" M4
+    /// Quick preview - iPad Pro 11" M4
     func padPreview() -> some View {
         MultiDevicePreview(devices: [.iPadPro11M4]) {
             self
         }
     }
     
-    /// 快速預覽 - 所有裝置
+    /// Quick preview - all devices
     func allDevicesPreview() -> some View {
         MultiDevicePreview(devices: PreviewDevices.all) {
             self
         }
     }
     
-    /// 快速預覽 - 自訂裝置列表
+    /// Quick preview - custom device list
     func previewOn(devices: [PreviewDevice]) -> some View {
         MultiDevicePreview(devices: devices) {
             self
         }
     }
     
-    /// 快速預覽 - 深色/淺色模式對比（使用預設裝置）
+    /// Quick preview - light/dark mode comparison (using default device)
     func colorSchemePreview() -> some View {
         Group {
             MultiDevicePreview(devices: [.iPhone16Pro], colorScheme: .light) {
@@ -113,7 +108,7 @@ public extension View {
         }
     }
     
-    /// 快速預覽 - 指定裝置的深色/淺色模式對比
+    /// Quick preview - light/dark mode comparison for specific device
     func colorSchemePreview(on device: PreviewDevice) -> some View {
         Group {
             MultiDevicePreview(devices: [device], colorScheme: .light) {
