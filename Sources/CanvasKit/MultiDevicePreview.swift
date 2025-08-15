@@ -7,20 +7,19 @@
 
 // MARK: - MultiDevicePreview
 
-#if DEBUG
+#if DEBUG && canImport(SwiftUI)
 import SwiftUI
 
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 private extension View {
     @ViewBuilder func withColorScheme(_ scheme: ColorScheme?) -> some View {
         if let scheme { self.environment(\.colorScheme, scheme) } else { self }
     }
 
-    /// 不在簽名引用 DynamicTypeSize；在支援平台才套用
+    /// 套用動態字型大小（iOS 15+, macOS 12+ 已支援）
     @ViewBuilder func withDynamicTypeSizeIfAvailable(_ size: Any?) -> some View {
         #if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
-        if #available(iOS 15, macOS 12, tvOS 15, watchOS 8, *),
-           let s = size as? DynamicTypeSize {
+        if let s = size as? DynamicTypeSize {
             self.dynamicTypeSize(s)
         } else {
             self
@@ -31,7 +30,7 @@ private extension View {
     }
 }
 
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 public struct MultiDevicePreview<Content: View>: View {
     public let devices: [PreviewDevice]
     public let colorScheme: ColorScheme?
@@ -63,7 +62,7 @@ public struct MultiDevicePreview<Content: View>: View {
 
 // MARK: - Quick Preview Extensions
 
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 public extension View {
     
     /// 快速預覽 - 常用的幾個裝置（iPhone、iPad）
