@@ -7,10 +7,10 @@
 
 // MARK: - MultiDevicePreview
 
-#if DEBUG
+#if canImport(SwiftUI) && DEBUG
 import SwiftUI
 
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 private extension View {
     @ViewBuilder func withColorScheme(_ scheme: ColorScheme?) -> some View {
         if let scheme { self.environment(\.colorScheme, scheme) } else { self }
@@ -63,7 +63,7 @@ public struct MultiDevicePreview<Content: View>: View {
 
 // MARK: - Quick Preview Extensions
 
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 public extension View {
     
     /// 快速預覽 - 常用的幾個裝置（iPhone、iPad）

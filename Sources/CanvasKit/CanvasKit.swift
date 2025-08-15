@@ -2,10 +2,10 @@
 // https://docs.swift.org/swift-book
 
 // MARK: - CanvasKit
-#if DEBUG
+#if canImport(SwiftUI) && DEBUG
 import SwiftUI
 
-@available(macOS 10.15, *)
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 public extension PreviewDevice {
     // MARK: - iPhone
     static let iPhone16             = PreviewDevice(rawValue: "iPhone 16")
@@ -35,7 +35,7 @@ public extension PreviewDevice {
     static let macStudio            = PreviewDevice(rawValue: "Mac Studio")
 }
 
-@available(macOS 10.15, *)
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 public enum PreviewDevices {
     public static let phones: [PreviewDevice] = [
         .iPhoneSE3, .iPhone16, .iPhone16Pro, .iPhone15ProMax
