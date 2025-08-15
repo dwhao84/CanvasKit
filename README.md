@@ -13,7 +13,7 @@ SwiftUI Preview 的便捷裝置預設值
 
 ## 系統需求
 
-- iOS 13.0+ / macOS 10.15+ / tvOS 13.0+ / watchOS 6.0+
+- iOS 15.0+ / macOS 12.0+ / tvOS 15.0+ / watchOS 8.0+
 - Swift 5.9+
 - Xcode 15.0+
 
