@@ -72,6 +72,50 @@ final class PreviewTests: XCTestCase {
         // If we get here without compilation errors, the test passes
         XCTAssertTrue(true, "All convenience preview methods are available")
     }
+    
+    func testDeviceCollectionConsistency() throws {
+        // Verify that all devices in collections are actually defined
+        let phones = PreviewDevices.phones
+        let pads = PreviewDevices.pads
+        let all = PreviewDevices.all
+        
+        // Check that phones array contains expected devices
+        XCTAssertEqual(phones.count, 4, "Expected 4 phone devices")
+        XCTAssertTrue(phones.contains(.iPhoneSE3))
+        XCTAssertTrue(phones.contains(.iPhone16))
+        XCTAssertTrue(phones.contains(.iPhone16Pro))
+        XCTAssertTrue(phones.contains(.iPhone15ProMax))
+        
+        // Check that pads array contains expected devices
+        XCTAssertEqual(pads.count, 3, "Expected 3 pad devices")
+        XCTAssertTrue(pads.contains(.iPadMini6))
+        XCTAssertTrue(pads.contains(.iPadPro11M4))
+        XCTAssertTrue(pads.contains(.iPadPro129Gen6))
+        
+        // Check that all array is sum of phones and pads
+        XCTAssertEqual(all.count, phones.count + pads.count)
+        
+        // Verify all phones are in all collection
+        for phone in phones {
+            XCTAssertTrue(all.contains(phone), "All collection should contain \(phone.rawValue)")
+        }
+        
+        // Verify all pads are in all collection
+        for pad in pads {
+            XCTAssertTrue(all.contains(pad), "All collection should contain \(pad.rawValue)")
+        }
+    }
+    
+    func testQuickPreviewDevices() throws {
+        // Test that quickPreview uses the expected devices
+        // This is important for documentation consistency
+        let quickPreviewDevices: [PreviewDevice] = [.iPhoneSE3, .iPhone16Pro, .iPadPro11M4]
+        
+        // Verify these devices exist and have correct names
+        XCTAssertEqual(quickPreviewDevices[0].rawValue, "iPhone SE (3rd generation)")
+        XCTAssertEqual(quickPreviewDevices[1].rawValue, "iPhone 16 Pro")
+        XCTAssertEqual(quickPreviewDevices[2].rawValue, "iPad Pro 11-inch (M4)")
+    }
 }
 #else
 // If SwiftUI is not available, create a placeholder test
